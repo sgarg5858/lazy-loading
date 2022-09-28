@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, createNgModule, Injector, NgModuleRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +7,7 @@ import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private injector: Injector) { }
   @ViewChild('container',{read:ViewContainerRef}) container:ViewContainerRef | null = null;
 
   ngOnInit(): void {
@@ -24,5 +24,24 @@ export class HomeComponent implements OnInit {
       }
     )
   }
+  // loadSkillModule(){
+  //   import('../../skills/skills.module').then(
+  //     (module)=>{
+  //       const skillModule = module['SkillsModule'];
+
+  //       const skillModuleRef:NgModuleRef<any>=createNgModule(skillModule,this.injector);
+
+  //       const component = skillModuleRef.instance.getComponent();
+  //       console.log(component,skillModuleRef);
+  //       if(this.container)
+  //       {
+  //       this.container.createComponent(component,{ngModuleRef:skillModuleRef});
+  //       }
+
+  //     }
+  //   ).catch((error)=>{
+  //     console.log(error);
+  //   })
+  // }
 
 }

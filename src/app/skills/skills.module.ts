@@ -5,11 +5,19 @@ import { SkillsComponent } from './skills/skills.component';
 
 
 @NgModule({
-  declarations: [
-    SkillsComponent
-  ],
   imports: [
     CommonModule
   ],
+  declarations: [
+    SkillsComponent
+  ],
+  
+
 })
-export class SkillsModule { }
+export class SkillsModule {
+
+  getComponent(){
+    return SkillsComponent;
+  }
+  
+ }
