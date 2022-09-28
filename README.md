@@ -118,4 +118,10 @@ One thing here is we are still loading experience and skills upfront in home whe
     )
   }
   
-  Here we are fetching the component alone, if this component uses some other dependencies like CommonModule ngIf then it wont work!
+  Here we are fetching the component alone, if this component uses some other dependencies like CommonModule ngIf then it wont work as dependencies 
+  imports are in Module not in component!
+  
+  
+  ********************************************************************************************************************
+  
+  4-lazy-load-module-without-router
