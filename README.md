@@ -1,27 +1,91 @@
-# LazyLoadModulesComponentsWithWithoutRouting
+# lazy-load-modules-components-with-without-routing
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.1.
+We have login page and Home page Initially we need Login Page only! We dont need home page initially!
+Home Page shows 2 more thing skills and experiences! They are from separate modules, they dont need to be shown immediately, we can 
+ask user to you know load skills,experiences while user sees other things on home page or we can load asynchronously!
 
-## Development server
+1-eager-loading
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Everything is put inside Main Bundle as We are importing Both AuthModule and Home Module in AppModule and Home Module imports SkillsModule and
+Experience Module. This makes the intial bunde big. The point is we dont need home page on load, we only need it after user is logged in!
 
-## Code scaffolding
+Dev Mode:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Initial Chunk Files | Names   | Raw Size
 
-## Build
+main.js             | main    | 22.93 kB | 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+runtime.js          | runtime |  6.59 kB | 
 
-## Running unit tests
+Build Mode:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Output:
 
-## Running end-to-end tests
+Initial Chunk Files           | Names         |  Raw Size | Estimated Transfer Size
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+main.4844f36b7c31e285.js      | main          | 170.53 kB |                45.79 kB
 
-## Further help
+polyfills.9e6e3f6d1102aa74.js | polyfills     |  33.15 kB |                10.66 kB
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+runtime.39ecdab9f0a71323.js   | runtime       |   1.12 kB |               618 bytes
+
+styles.ef46db3751d8e999.css   | styles        |   0 bytes |                       -
+
+                              | Initial Total | 204.80 kB |                57.05 kB
+
+2-lazy-loading
+
+Here we are gonna take one step ahead by lazy loading home module!
+Static Imports are key to tree shaking, Webpack relies on static imports to see if some piece of code can be tree shaken!
+Thats for lazy loading we should use Dynamic Imports, Because AppModule has Static Import to HomeModule Then Webpack includes that
+in main bundle, which is not what we want, we dont want any static imports to Home Module.
+
+We use this below syntax:
+
+  {
+    path:'home',
+    loadChildren:()=>import('./home/home.module').then(m=>m.HomeModule)
+  },
+  
+  To inform Webpack to split this module in its own bundle, so that we can load it at runtime!
+  
+Dev:
+
+Initial Chunk Files            | Names            |  Raw Size
+
+main.js                        | main             |  11.95 kB | 
+
+
+Lazy Chunk Files               | Names            |  Raw Size
+
+src_app_home_home_module_ts.js | home-home-module |  11.02 kB | 
+
+Build:
+
+
+  
+Output:
+
+Initial Chunk Files           | Names            |  Raw Size | Estimated Transfer Size
+
+main.6c43bda7ed40158a.js      | main             | 197.87 kB |                54.33 kB
+
+polyfills.9e6e3f6d1102aa74.js | polyfills        |  33.15 kB |                10.66 kB
+
+runtime.7cc326669647e1e8.js   | runtime          |   2.82 kB |                 1.29 kB
+
+styles.ef46db3751d8e999.css   | styles           |   0 bytes |                       -
+
+                              | Initial Total    | 233.83 kB |                66.29 kB
+
+Lazy Chunk Files              | Names            |  Raw Size | Estimated Transfer Size
+
+421.5a6fb05e3b1ec9ec.js       | home-home-module |   1.48 kB |               444 bytes
+
+
+Here the application is very small thats why we might be able to see the numbers correctly as Angular Code itself is tree shaken if we dont 
+use some features, so previously we were not using lazy loading right. But now we are thats why code for that is addes as well to main bundle. But if our app is big then surely it benefits a lot.
+
+One thing here is we are still loading experience and skills upfront in home where users might not wanna see them, so lets see how can we load them on demand!
+
+  
