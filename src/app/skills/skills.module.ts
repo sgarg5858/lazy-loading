@@ -11,8 +11,5 @@ import { SkillsComponent } from './skills/skills.component';
   imports: [
     CommonModule
   ],
-  exports:[
-    SkillsComponent
-  ]
 })
 export class SkillsModule { }

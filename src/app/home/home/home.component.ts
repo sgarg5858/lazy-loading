@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +8,21 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   constructor() { }
+  @ViewChild('container',{read:ViewContainerRef}) container:ViewContainerRef | null = null;
 
   ngOnInit(): void {
+  }
+
+  loadSkills(){
+    import('../../skills/skills/skills.component').then(
+      (module)=>{
+        const SkillsComponent = module.SkillsComponent;
+        if(this.container)
+        {
+          this.container.createComponent(SkillsComponent);
+        }
+      }
+    )
   }
 
 }
