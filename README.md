@@ -33,6 +33,9 @@ styles.ef46db3751d8e999.css   | styles        |   0 bytes |                     
 
                               | Initial Total | 204.80 kB |                57.05 kB
 
+
+********************************************************************************************************************
+
 2-lazy-loading
 
 Here we are gonna take one step ahead by lazy loading home module!
@@ -88,4 +91,37 @@ use some features, so previously we were not using lazy loading right. But now w
 
 One thing here is we are still loading experience and skills upfront in home where users might not wanna see them, so lets see how can we load them on demand!
 
+********************************************************************************************************************
   
+  3-lazy-loading-component-only-has-issues
+  
+  Here we tried lazy loading a component directly. We have a Skill module  which exports Skill component , which our HomeModule imports, thats why it ends up in lazy loaded home module, but we dont want this skill module at that time, we can further lazy load this.
+  
+  We will lazy load a component
+  
+  1) Remove the component from exports array of SKillModule, 
+  2) Remove the component selector from HomeModule Component
+  3) Remove the import of SkillModule from HomeModule
+  4) Create a button or some other logic to load the skills at runtime
+  
+    @ViewChild('container',{read:ViewContainerRef}) container:ViewContainerRef | null = null;
+
+ loadSkills(){
+    import('../../skills/skills/skills.component').then(
+      (module)=>{
+        const SkillsComponent = module.SkillsComponent;
+        if(this.container)
+        {
+          this.container.createComponent(SkillsComponent);
+        }
+      }
+    )
+  }
+  
+  Here we are fetching the component alone, if this component uses some other dependencies like CommonModule ngIf then it wont work as dependencies 
+  imports are in Module not in component!
+  
+  
+  ********************************************************************************************************************
+  
+  4-lazy-load-module-without-router
