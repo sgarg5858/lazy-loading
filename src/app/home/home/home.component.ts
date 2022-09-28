@@ -24,24 +24,22 @@ export class HomeComponent implements OnInit {
       }
     )
   }
-  // loadSkillModule(){
-  //   import('../../skills/skills.module').then(
-  //     (module)=>{
-  //       const skillModule = module['SkillsModule'];
+  loadSkillModule(){
+    import('../../skills/skills.module').then(
+      (module)=>{
+        console.log(module)
+        const skillModule = module.SkillsModule;
+        const SkillsComponent = skillModule.components.skillsComponent;
+        const skillModuleRef:NgModuleRef<any>=createNgModule(skillModule,this.injector);
+        if(this.container)
+        {
+        this.container.createComponent(SkillsComponent,{ngModuleRef:skillModuleRef});
+        }
 
-  //       const skillModuleRef:NgModuleRef<any>=createNgModule(skillModule,this.injector);
-
-  //       const component = skillModuleRef.instance.getComponent();
-  //       console.log(component,skillModuleRef);
-  //       if(this.container)
-  //       {
-  //       this.container.createComponent(component,{ngModuleRef:skillModuleRef});
-  //       }
-
-  //     }
-  //   ).catch((error)=>{
-  //     console.log(error);
-  //   })
-  // }
+      }
+    ).catch((error)=>{
+      console.log(error);
+    })
+  }
 
 }

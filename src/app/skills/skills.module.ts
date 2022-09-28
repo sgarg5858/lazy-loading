@@ -16,8 +16,8 @@ import { SkillsComponent } from './skills/skills.component';
 })
 export class SkillsModule {
 
-  getComponent(){
-    return SkillsComponent;
-  }
-  
+  public static components = {
+    skillsComponent: SkillsComponent,
+  };
+
  }
