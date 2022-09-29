@@ -5,10 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { HomeModule } from './home/home.module';
+import { LazyLoaderDirective } from './lazy-loader/lazy-loader.directive';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LazyLoaderDirective
   ],
   imports: [
     BrowserModule,
