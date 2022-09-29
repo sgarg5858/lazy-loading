@@ -1,5 +1,11 @@
 # lazy-load-modules-components-with-without-routing
 
+Reference: 
+
+https://www.youtube.com/watch?v=jaP1SX33uYQ&list=PLIG0QvRvxgMMnRiSi1fUxlA73nEMgGp9O&index=4&t=9s
+
+https://www.youtube.com/watch?v=KMkX1B3sGlU
+
 Read this DOC in Edit Mode
 
 We have login page and Home page Initially we need Login Page only! We dont need home page initially!
