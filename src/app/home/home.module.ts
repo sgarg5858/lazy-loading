@@ -18,8 +18,7 @@ import { LazyLoaderDirective } from '../lazy-loader/lazy-loader.directive';
       {
         path:'',component:HomeComponent
       }
-    ]),
-    ExperienceModule
+    ])
   ]
 })
 export class HomeModule { }
