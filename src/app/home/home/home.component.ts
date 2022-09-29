@@ -15,8 +15,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loadModuleConfig:LazyLoader={
+  loadSkillModuleConfig:LazyLoader={
     loader: () => import('../../skills/skills.module').then((module)=>module.SkillsModule),
+  }
+  loadExperienceModuleConfig:LazyLoader={
+    loader: () => import('../../experience/experience.module').then((module)=>module.ExperienceModule),
   }
 
   //THis for standalone components
@@ -49,10 +52,19 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  loadModuleViaService(){
+  loadSkillModuleViaService(){
     if(this.container)
     {
-      this.loaderService.loadModule({...this.loadModuleConfig,injector:this.injector,container:this.container}).then(()=>{
+      this.loaderService.loadModule({...this.loadSkillModuleConfig,injector:this.injector,container:this.container}).then(()=>{
+        console.log("DONE")
+      })
+
+    }
+  }
+  loadExperienceModuleViaService(){
+    if(this.container)
+    {
+      this.loaderService.loadModule({...this.loadExperienceModuleConfig,injector:this.injector,container:this.container}).then(()=>{
         console.log("DONE")
       })
 
