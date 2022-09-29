@@ -1,5 +1,7 @@
 # lazy-load-modules-components-with-without-routing
 
+Read this DOC in Edit Mode
+
 We have login page and Home page Initially we need Login Page only! We dont need home page initially!
 Home Page shows 2 more thing skills and experiences! They are from separate modules, they dont need to be shown immediately, we can 
 ask user to you know load skills,experiences while user sees other things on home page or we can load asynchronously!
@@ -125,3 +127,49 @@ One thing here is we are still loading experience and skills upfront in home whe
   ********************************************************************************************************************
   
   4-lazy-load-module-without-router
+  
+  1. The problem with lazy loading component only has one main problem, which is if component depends upon some external dependencies like Common    Module or Material Components , which is imported in the module , not in the component. Only downloading component will not have dependencies resolved
+ and therefore we will get the error!
+ 
+ Solution 1:
+ 
+ export class SkillsModule {
+
+  public static components = {
+    skillsComponent: SkillsComponent,
+  };
+
+ }
+
+
+ loadSkillModule(){
+    import('../../skills/skills.module').then(
+      (module)=>{
+        const skillModule = module.SkillsModule;
+        const SkillsComponent = skillModule.components.skillsComponent;
+        const skillModuleRef:NgModuleRef<any>=createNgModule(skillModule,this.injector);
+        if(this.container)
+        {
+        this.container.createComponent(SkillsComponent,{ngModuleRef:skillModuleRef});
+        }
+      }
+    ).catch((error)=>{
+      console.log(error);
+    })
+  }
+  
+  Solution 2:  Make the component Standalone and put the dependencies there! which internally uses SCAM Module Pattern (Single Component Angular Module)
+  
+   loadSkills(){
+    import('../../skills/skills/skills.component').then(
+      (module)=>{
+        const SkillsComponent = module.SkillsComponent;
+        if(this.container)
+        {
+          this.container.createComponent(SkillsComponent);
+        }
+      }
+    )
+  }
+  
+  ********************************************************************************************************************
