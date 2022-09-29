@@ -12,14 +12,6 @@ export class LazyLoaderService {
 
   constructor() { }
 
-  loadComponent(args:{
-    loader:LoadChildrenCallback,
-    module:string;
-    container:ViewContainerRef,
-  }){
-
-  }
-
   loadModule(args:{
     loader:LoadChildrenCallback,
     container:ViewContainerRef,

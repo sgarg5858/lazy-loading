@@ -97,7 +97,8 @@ One thing here is we are still loading experience and skills upfront in home whe
   
   3-lazy-loading-component-only-has-issues
   
-  Here we tried lazy loading a component directly. We have a Skill module  which exports Skill component , which our HomeModule imports, thats why it ends up in lazy loaded home module, but we dont want this skill module at that time, we can further lazy load this.
+  Here we will try lazy loading a component directly. 
+  We have a Skill module  which exports Skill component , which our HomeModule imports, thats why it ends up in lazy loaded home module, but we dont want this skill module at that time, we can further lazy load this.
   
   We will lazy load a component
   
@@ -120,22 +121,20 @@ One thing here is we are still loading experience and skills upfront in home whe
     )
   }
   
-  Here we are fetching the component alone, if this component uses some other dependencies like CommonModule ngIf then it wont work as dependencies 
-  imports are in Module not in component!
+  Here we are fetching the component alone, if this component uses some other dependencies like CommonModule ngIf then it wont work as dependencies imports are in Module not in component!
   
   
   ********************************************************************************************************************
   
   4-lazy-load-module-without-router
   
-  1. The problem with lazy loading component only has one main problem, which is if component depends upon some external dependencies like Common    Module or Material Components , which is imported in the module , not in the component. Only downloading component will not have dependencies resolved
- and therefore we will get the error!
+  1. The problem with lazy loading component only has one main problem, which is if component depends upon some external dependencies like Common Module or Material Components , which is imported in the module , not in the component. Only downloading component will not have dependencies resolved and therefore we will get the error!
  
  Solution 1:
  
  export class SkillsModule {
 
-  public static components = {
+  public static component = {
     skillsComponent: SkillsComponent,
   };
 
@@ -173,3 +172,8 @@ One thing here is we are still loading experience and skills upfront in home whe
   }
   
   ********************************************************************************************************************
+
+5-reusable-lazy-loader
+
+Checkout the lazy-loader service and home component.ts file to see how we can make
+it reusable!
